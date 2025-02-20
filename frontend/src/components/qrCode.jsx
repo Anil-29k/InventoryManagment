@@ -39,7 +39,7 @@ const InventoryQR = () => {
 
       console.log("Delete response:", response.data);
 
-      fetchInventory(); // Refresh inventory list
+      fetchInventory(); 
     } catch (error) {
       console.error("Error deleting item:", error.response?.data || error.message);
     }
@@ -69,7 +69,7 @@ const InventoryQR = () => {
       }
 
       setNewItem({ name: "", quantity: 0, price: 0 });
-      fetchInventory(); // Refresh inventory
+      fetchInventory(); 
     } catch (error) {
       console.error("Error adding item:", error);
     }
@@ -121,7 +121,6 @@ const InventoryQR = () => {
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-4">Scan QR Code</h2>
 
-        {/* Button to Start Scanning */}
         {!scanning ? (
           <button
             onClick={() => setScanning(true)}
@@ -137,7 +136,7 @@ const InventoryQR = () => {
                   console.log("QR Code detected:", result.text);
                   setScanResult(result.text);
                   handleScan(result.text);
-                  setScanning(false); // Close scanner after successful scan
+                  setScanning(false); 
                 } else if (error) {
                   console.error("QR Scan Error:", error);
                 }
@@ -146,7 +145,6 @@ const InventoryQR = () => {
               className="w-full max-w-md mx-auto border rounded-lg shadow-md"
             />
 
-            {/* Cancel Button */}
             <button
               onClick={() => setScanning(false)}
               className="mt-4 px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600"
@@ -156,7 +154,6 @@ const InventoryQR = () => {
           </div>
         )}
 
-        {/* Show Scanned Result */}
         {scanResult && (
           <p className="mt-4 text-lg font-semibold">Scanned Data: {scanResult}</p>
         )}

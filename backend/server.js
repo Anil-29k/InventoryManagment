@@ -7,11 +7,9 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -20,7 +18,6 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
-// Inventory Schema & Model
 const inventorySchema = new mongoose.Schema(
   {
     name: String,
@@ -33,7 +30,6 @@ const inventorySchema = new mongoose.Schema(
 
 const Inventory = mongoose.model("Inventory", inventorySchema);
 
-// Generate QR Code
 const generateQRCode = async (text) => {
   try {
     return await qr.toDataURL(text);
@@ -43,7 +39,6 @@ const generateQRCode = async (text) => {
   }
 };
 
-// ✅ GET all inventory items
 app.get("/inventory", async (req, res) => {
   try {
     const items = await Inventory.find();
@@ -53,7 +48,6 @@ app.get("/inventory", async (req, res) => {
   }
 });
 
-// ✅ GET a single inventory item by ID
 app.get("/inventory/:id", async (req, res) => {
   try {
     const item = await Inventory.findById(req.params.id);
@@ -64,7 +58,6 @@ app.get("/inventory/:id", async (req, res) => {
   }
 });
 
-// ✅ CREATE a new inventory item
 app.post("/inventory", async (req, res) => {
   try {
     const { name, quantity, price } = req.body;
@@ -77,7 +70,7 @@ app.post("/inventory", async (req, res) => {
   }
 });
 
-// ✅ UPDATE an inventory item by ID
+
 app.put("/inventory/:id", async (req, res) => {
     try {
         const { name, quantity, price } = req.body;
@@ -110,7 +103,7 @@ app.put("/inventory/:id", async (req, res) => {
 });
 
 
-// ✅ DELETE an inventory item by ID
+
 app.delete("/inventory/:id", async (req, res) => {
   try {
     const item = await Inventory.findByIdAndDelete(req.params.id);
@@ -121,12 +114,11 @@ app.delete("/inventory/:id", async (req, res) => {
   }
 });
 
-// ✅ Sample Route
+
 app.get("/", (req, res) => {
   res.send("QR Inventory Management API is running");
 });
 
-// ✅ Start Server
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running at http://0.0.0.0:${PORT}`);
 });
